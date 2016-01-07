@@ -30,14 +30,20 @@
 
         // Add school marker
         var myLayer = L.geoJson(schools, {
-            onEachFeature: onEachFeatureFunction
+            onEachFeature: onEachFeatureOption,
+            pointToLayer: pointToLayerOption
         }).addTo(map);
 
         // Add popups displaying the school name
-        function onEachFeatureFunction(feature, layer){
+        function onEachFeatureOption(feature, layer){
             if (feature.properties.SCH_LABEL) {
                 layer.bindPopup(feature.properties.SCH_LABEL);
             }
+        }
+
+        // pointToLayer option to generate CircleMarker instead of default marker
+        function pointToLayerOption(feature, latlng) {
+            return L.circleMarker(latlng);
         }
 
     </script>
