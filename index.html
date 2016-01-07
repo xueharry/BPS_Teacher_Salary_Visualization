@@ -28,8 +28,17 @@
             maxZoom: 18,
             }).addTo(map);
 
-        // Add school markers to map
-        L.geoJson(schools).addTo(map);
+        // Add school marker
+        var myLayer = L.geoJson(schools, {
+            onEachFeature: onEachFeatureFunction
+        }).addTo(map);
+
+        // Add popups displaying the school name
+        function onEachFeatureFunction(feature, layer){
+            if (feature.properties.SCH_LABEL) {
+                layer.bindPopup(feature.properties.SCH_LABEL);
+            }
+        }
 
     </script>
 </body>
