@@ -37,7 +37,7 @@
         // Add popups displaying the school name
         function onEachFeatureOption(feature, layer){
             if (feature.properties.SCH_LABEL) {
-                layer.bindPopup(feature.properties.SCH_LABEL);
+                layer.bindPopup(feature.properties.SCH_NAME);
             }
         }
 
