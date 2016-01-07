@@ -15,7 +15,7 @@
     <script src="data/Public_Schools.geojson"></script>
 
     <script>
-        var boston_coordinates = [42.3601, -71.0589];
+        var boston_coordinates = [42.33, -71.0589];
 
         var map = L.map('map').setView(boston_coordinates, 12);
         mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
@@ -43,7 +43,7 @@
 
         // pointToLayer option to generate CircleMarker instead of default marker
         function pointToLayerOption(feature, latlng) {
-            return L.circleMarker(latlng);
+            return L.circleMarker(latlng)
         }
 
     </script>
