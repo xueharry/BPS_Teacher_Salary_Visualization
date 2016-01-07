@@ -15,12 +15,16 @@
     <script src="data/Public_Schools.geojson"></script>
 
     <script>
-        var map = L.map('map').setView([42.3601, -71.0589], 12);
-        mapLink = 
-            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        var boston_coordinates = [42.3601, -71.0589];
+
+        var map = L.map('map').setView(boston_coordinates, 12);
+        mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        dataLink = '<a href="https://data.cityofboston.gov">CityofBoston<a/>';
+        githubLink = '<a href="https://github.com/xueharry/BPS_Teacher_Salary_Visualization">Github</a>';
+
         L.tileLayer(
             'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; ' + mapLink,
+            attribution: 'Map data &copy; ' + mapLink + ' | Salary data &copy; ' + dataLink + ' | ' + githubLink,
             maxZoom: 18,
             }).addTo(map);
 
