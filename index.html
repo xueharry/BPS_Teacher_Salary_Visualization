@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BPS Salary Visualization</title>
+    <title>BPS Teacher Salary Visualization</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
     <link rel="stylesheet" href="css/style.css"/>
@@ -10,9 +10,13 @@
     <div id="map"></div>
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
-    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="vendor/jquery-1.11.3.min.js"></script>
     <!-- TODO: Figure out more elegant way of loading geojson -->
     <script src="data/Public_Schools.geojson"></script>
+    <!-- Fuse search -->
+    <script type="text/javascript" src="vendor/fuse.min.js"></script>
+    <script type="text/javascript" src="vendor/leaflet-fusesearch/src/leaflet.fusesearch.js"></script>
+    <link rel="stylesheet" href="vendor/leaflet-fusesearch/src/leaflet.fusesearch.css" />
 
     <script>
         var boston_coordinates = [42.33, -71.0589];
@@ -34,13 +38,19 @@
         $.getJSON('data/salaries.json', function(json) {
             salary_data = json;
 
+            // Add search control
+            var searchCtrl = L.control.fuseSearch();
+            searchCtrl.addTo(map);
+
+            // Index features
+            searchCtrl.indexFeatures(schools, ['SCH_NAME', 'ADDRESS', 'CITY']);
+
             // Add school marker
                 var myLayer = L.geoJson(schools, {
                     onEachFeature: onEachFeatureOption,
                     pointToLayer: pointToLayerOption,
                     style: style
                 }).addTo(map);
-
 
             // pointToLayer option to generate CircleMarker instead of default marker
             function pointToLayerOption(feature, latlng) {
@@ -49,6 +59,9 @@
 
             // Add popups displaying the school name and mean salary
             function onEachFeatureOption(feature, layer){
+                // Bind layer to feature
+                feature.layer = layer;
+
                 if (feature.properties.SCH_NAME) {
                     layer.bindPopup('<b>' + feature.properties.SCH_NAME + '</b> </br>' 
                         + 'Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</br>'
