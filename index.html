@@ -37,24 +37,68 @@
             // Add school marker
                 var myLayer = L.geoJson(schools, {
                     onEachFeature: onEachFeatureOption,
-                    pointToLayer: pointToLayerOption
+                    pointToLayer: pointToLayerOption,
+                    style: style
                 }).addTo(map);
 
 
             // pointToLayer option to generate CircleMarker instead of default marker
             function pointToLayerOption(feature, latlng) {
-                return L.circleMarker(latlng)
+                return L.circleMarker(latlng);
             }
 
             // Add popups displaying the school name and mean salary
             function onEachFeatureOption(feature, layer){
                 if (feature.properties.SCH_NAME) {
-                    layer.bindPopup(feature.properties.SCH_NAME
-                        + '<p> Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</p>'
-                        + '<p> Median salary: $' + salary_data[feature.properties.SCH_NAME]['median'] + '</p>');
+                    layer.bindPopup('<b>' + feature.properties.SCH_NAME + '</b> </br>' 
+                        + 'Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</br>'
+                        + 'Median salary: $' + salary_data[feature.properties.SCH_NAME]['median']);
                 }
             }
+
+            // Custom style for circles
+            function style(feature) {
+                return {
+                    fillColor: getColor(salary_data[feature.properties.SCH_NAME]['mean']),
+                    color: "#000",
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.9
+                };
+            }
+
+            // Legend to explain the color scheme
+            var legend = L.control({position: 'bottomright'});
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend'),
+                    grades = [50000, 60000, 70000, 80000, 90000],
+                    labels = [];
+
+                div.innerHTML += '<p><b>Mean Teacher Salary ($)</b></p>';
+
+                for (var i = 0; i < grades.length; i++) {
+                    div.innerHTML +=
+                        '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? ' &ndash; ' + grades[i + 1] + '<br>' : '+');
+                }
+
+                return div;
+            };
+
+            legend.addTo(map);
+
         });
+
+        // Calculates the color value using color scheme generated at colorbrewer2.org
+        function getColor(d) {
+            return  d > 90000 ? '#a63603':
+                    d > 80000 ? '#e6550d':
+                    d > 70000 ? '#fd8d3c':
+                    d > 60000 ? '#fdae6b':
+                                '#feedde';
+        }
 
     </script>
 </body>
