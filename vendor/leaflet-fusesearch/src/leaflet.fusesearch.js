@@ -279,7 +279,7 @@ L.Control.FuseSearch = L.Control.extend({
     _getFeaturePopupIfVisible: function(feature) {
         var layer = feature.layer;
         if (undefined !== layer && this._map.hasLayer(layer)) {
-            return layer.getPopup();
+            return layer._popup;
         }
     },
     
