@@ -19,8 +19,14 @@ var salary_data;
 $.getJSON('data/salaries.json', function(json) {
     salary_data = json;
 
+    // Fuse search options
+    var searchOptions = {
+        title: 'Search for a high school',
+        placeholder: 'Search for a high school'
+    };
+
     // Add search control
-    var searchCtrl = L.control.fuseSearch();
+    var searchCtrl = L.control.fuseSearch(searchOptions);
     searchCtrl.addTo(map);
 
     // Index features
@@ -38,7 +44,7 @@ $.getJSON('data/salaries.json', function(json) {
         return L.circleMarker(latlng);
     }
 
-    // Add popups displaying the school name and mean salary
+    // Add popups
     function onEachFeatureOption(feature, layer){
         // Bind layer to feature
         feature.layer = layer;
@@ -53,7 +59,8 @@ $.getJSON('data/salaries.json', function(json) {
     // Custom style for circles
     function style(feature) {
         return {
-            fillColor: getColor(salary_data[feature.properties.SCH_NAME]['mean']),
+            // Color is based on median salary
+            fillColor: getColor(salary_data[feature.properties.SCH_NAME]['median']),
             color: "#000",
             weight: 2,
             opacity: 1,
@@ -70,7 +77,7 @@ $.getJSON('data/salaries.json', function(json) {
             grades = [50000, 60000, 70000, 80000, 90000],
             labels = [];
 
-        div.innerHTML += '<p><b>Mean Teacher Salary ($)</b></p>';
+        div.innerHTML += '<p><b>Median Teacher Salary ($)</b></p>';
 
         for (var i = 0; i < grades.length; i++) {
             div.innerHTML +=
