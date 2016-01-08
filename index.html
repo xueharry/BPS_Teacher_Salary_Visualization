@@ -1,105 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BPS Salary Visualization</title>
+    <title>BPS Teacher Salary Visualization</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
     <div id="map"></div>
-
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <!-- TODO: Figure out more elegant way of loading geojson -->
+    <script src="vendor/jquery-1.11.3.min.js"></script>
     <script src="data/Public_Schools.geojson"></script>
-
-    <script>
-        var boston_coordinates = [42.33, -71.0589];
-
-        var map = L.map('map').setView(boston_coordinates, 12);
-        mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-        dataLink = '<a href="https://data.cityofboston.gov">CityofBoston<a/>';
-        githubLink = '<a href="https://github.com/xueharry/BPS_Teacher_Salary_Visualization">Github</a>';
-
-        L.tileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; ' + mapLink + ' | Salary data &copy; ' + dataLink + ' | ' + githubLink,
-            maxZoom: 18,
-            }).addTo(map);
-
-        var salary_data;
-
-        // Get salary data
-        $.getJSON('data/salaries.json', function(json) {
-            salary_data = json;
-
-            // Add school marker
-                var myLayer = L.geoJson(schools, {
-                    onEachFeature: onEachFeatureOption,
-                    pointToLayer: pointToLayerOption,
-                    style: style
-                }).addTo(map);
-
-
-            // pointToLayer option to generate CircleMarker instead of default marker
-            function pointToLayerOption(feature, latlng) {
-                return L.circleMarker(latlng);
-            }
-
-            // Add popups displaying the school name and mean salary
-            function onEachFeatureOption(feature, layer){
-                if (feature.properties.SCH_NAME) {
-                    layer.bindPopup('<b>' + feature.properties.SCH_NAME + '</b> </br>' 
-                        + 'Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</br>'
-                        + 'Median salary: $' + salary_data[feature.properties.SCH_NAME]['median']);
-                }
-            }
-
-            // Custom style for circles
-            function style(feature) {
-                return {
-                    fillColor: getColor(salary_data[feature.properties.SCH_NAME]['mean']),
-                    color: "#000",
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 0.9
-                };
-            }
-
-            // Legend to explain the color scheme
-            var legend = L.control({position: 'bottomright'});
-
-            legend.onAdd = function (map) {
-
-                var div = L.DomUtil.create('div', 'info legend'),
-                    grades = [50000, 60000, 70000, 80000, 90000],
-                    labels = [];
-
-                div.innerHTML += '<p><b>Mean Teacher Salary ($)</b></p>';
-
-                for (var i = 0; i < grades.length; i++) {
-                    div.innerHTML +=
-                        '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                        grades[i] + (grades[i + 1] ? ' &ndash; ' + grades[i + 1] + '<br>' : '+');
-                }
-
-                return div;
-            };
-
-            legend.addTo(map);
-
-        });
-
-        // Calculates the color value using color scheme generated at colorbrewer2.org
-        function getColor(d) {
-            return  d > 90000 ? '#a63603':
-                    d > 80000 ? '#e6550d':
-                    d > 70000 ? '#fd8d3c':
-                    d > 60000 ? '#fdae6b':
-                                '#feedde';
-        }
-
-    </script>
+    <!-- Fuse search -->
+    <script type="text/javascript" src="vendor/fuse.min.js"></script>
+    <script type="text/javascript" src="vendor/leaflet-fusesearch/src/leaflet.fusesearch.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="vendor/leaflet-fusesearch/src/leaflet.fusesearch.css" />
 </body>
 </html>
