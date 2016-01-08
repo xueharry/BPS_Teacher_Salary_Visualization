@@ -50,9 +50,9 @@
             // Add popups displaying the school name and mean salary
             function onEachFeatureOption(feature, layer){
                 if (feature.properties.SCH_NAME) {
-                    layer.bindPopup(feature.properties.SCH_NAME
-                        + '<p> Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</p>'
-                        + '<p> Median salary: $' + salary_data[feature.properties.SCH_NAME]['median'] + '</p>');
+                    layer.bindPopup('<b>' + feature.properties.SCH_NAME + '</b> </br>' 
+                        + 'Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</br>'
+                        + 'Median salary: $' + salary_data[feature.properties.SCH_NAME]['median']);
                 }
             }
 
