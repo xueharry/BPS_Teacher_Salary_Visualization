@@ -15,6 +15,63 @@ L.tileLayer(
 
 var salary_data;
 
+// Add sidebar
+var sidebar = L.control.sidebar('sidebar', {
+    position: 'left'
+});
+
+map.addControl(sidebar);
+
+// Dynamically update sidebar
+function updateSidebar (schoolname) {
+    var salaryList = salary_data[schoolname]['salaries'];
+
+   // Fill in sidebar
+    $('#sidebar_title').html('<h1>' + schoolname +'</h1>');
+
+    // Fill in summary
+
+    // Generate plotly histogram
+    var histogramData = [
+      {
+        x: salaryList,
+        type: 'histogram'
+      }
+    ];
+
+    var histLayout = {
+        title: 'Teacher Salaries',
+        xaxis: {title: 'Total Earnings in 2014 ($)'},
+        yaxis: {title: 'Number of Teachers'},
+        autosize: false,
+        width: 400,
+        barmode: 'overlay',
+        bargap: 0.1,
+    };
+    Plotly.newPlot('histogram', histogramData, histLayout);
+
+    // Generate boxplot
+    var boxplotData = [{
+        name: '',
+        y: salaryList,
+        type: 'box'
+    }];
+
+    var boxLayout = {
+        title: 'Teacher Salary',
+        autosize: false,
+        width: 400,
+        xaxis: {title: ''},
+        yaxis: {title: 'Total Earnings in 2014 ($)'},
+    };
+
+    Plotly.newPlot('boxplot', boxplotData, boxLayout);
+
+    // Open sidebar
+    sidebar.show();
+
+}
+
 // Get salary data
 $.getJSON('data/salaries.json', function(json) {
     salary_data = json;
@@ -54,6 +111,11 @@ $.getJSON('data/salaries.json', function(json) {
                 + 'Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</br>'
                 + 'Median salary: $' + salary_data[feature.properties.SCH_NAME]['median']);
         }
+
+        layer.on('click', function(event) {
+            updateSidebar(feature.properties.SCH_NAME);
+        });
+
     }
 
     // Custom style for circles
@@ -100,3 +162,4 @@ function getColor(d) {
             d > 60000 ? '#fdae6b':
                         '#feedde';
 }
+
