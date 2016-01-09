@@ -43,6 +43,8 @@ function updateSidebar (schoolname) {
         title: 'Teacher Salaries',
         xaxis: {title: 'Total Earnings in 2014 ($)'},
         yaxis: {title: 'Number of Teachers'},
+        autosize: false,
+        width: 400,
         barmode: 'overlay',
         bargap: 0.1,
     };
@@ -56,7 +58,9 @@ function updateSidebar (schoolname) {
     }];
 
     var boxLayout = {
-        title: 'Teacher Salaries',
+        title: 'Teacher Salary',
+        autosize: false,
+        width: 400,
         xaxis: {title: ''},
         yaxis: {title: 'Total Earnings in 2014 ($)'},
     };
