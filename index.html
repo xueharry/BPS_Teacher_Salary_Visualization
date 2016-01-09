@@ -5,18 +5,34 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
     <link rel="stylesheet" href="css/style.css"/>
+    <script src="vendor/jquery-1.11.3.min.js"></script>
+    <script src="data/Public_Schools.geojson"></script>
+    <!-- Plotly -->
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="sidebar">
         <div id="sidebar_title"></div>
-        <div id="histogram"></div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills" id="sidebar_tabs">
+                <li role="presentation"><a href="#summary" data-toggle="pill">Summary</a></li>
+                <li role="presentation" class="active"><a href="#histogram" data-toggle="pill">Histogram</a></li>
+                <li role="presentation"><a href="#boxplot" data-toggle="pill">Boxplot</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane" id="summary"></div>
+                <div role="tabpanel" class="tab-pane active" id="histogram"></div>
+                <div role="tabpanel" class="tab-pane" id="boxplot"></div>
+            </div>
     </div>  
 
     <div id="map"></div>
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
-    <script src="vendor/jquery-1.11.3.min.js"></script>
-    <script src="data/Public_Schools.geojson"></script>
     <!-- Fuse search -->
     <script type="text/javascript" src="vendor/fuse.min.js"></script>
     <script type="text/javascript" src="vendor/leaflet-fusesearch/src/leaflet.fusesearch.js"></script>
@@ -25,7 +41,5 @@
     <script type="text/javascript" src="js/main.js"></script>
     <link rel="stylesheet" href="vendor/leaflet-fusesearch/src/leaflet.fusesearch.css" />
     <link rel="stylesheet" href="vendor/src/L.Control.Sidebar.css" />
-    <!-- Plotly -->
-    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </body>
 </html>

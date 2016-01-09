@@ -24,25 +24,44 @@ map.addControl(sidebar);
 
 // Dynamically update sidebar
 function updateSidebar (schoolname) {
+    var salaryList = salary_data[schoolname]['salaries'];
+
    // Fill in sidebar
     $('#sidebar_title').html('<h1>' + schoolname +'</h1>');
 
-    // Generate plotly histogram for salaries
-    var data = [
+    // Fill in summary
+
+    // Generate plotly histogram
+    var histogramData = [
       {
-        x: salary_data[schoolname]['salaries'],
+        x: salaryList,
         type: 'histogram'
       }
     ];
 
-    var layout = {
+    var histLayout = {
         title: 'Teacher Salaries',
         xaxis: {title: 'Total Earnings in 2014 ($)'},
         yaxis: {title: 'Number of Teachers'},
         barmode: 'overlay',
         bargap: 0.1,
     };
-    Plotly.newPlot('histogram', data, layout);
+    Plotly.newPlot('histogram', histogramData, histLayout);
+
+    // Generate boxplot
+    var boxplotData = [{
+        name: '',
+        y: salaryList,
+        type: 'box'
+    }];
+
+    var boxLayout = {
+        title: 'Teacher Salaries',
+        xaxis: {title: ''},
+        yaxis: {title: 'Total Earnings in 2014 ($)'},
+    };
+
+    Plotly.newPlot('boxplot', boxplotData, boxLayout);
 
     // Open sidebar
     sidebar.show();
@@ -88,7 +107,7 @@ $.getJSON('data/salaries.json', function(json) {
                 + 'Mean salary: $' + salary_data[feature.properties.SCH_NAME]['mean'] + '</br>'
                 + 'Median salary: $' + salary_data[feature.properties.SCH_NAME]['median']);
         }
-    
+
         layer.on('click', function(event) {
             updateSidebar(feature.properties.SCH_NAME);
         });
