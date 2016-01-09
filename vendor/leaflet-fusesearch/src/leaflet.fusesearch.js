@@ -300,6 +300,9 @@ L.Control.FuseSearch = L.Control.extend({
                     feature.layer.openPopup();
                 } else {
                     _this._panAndPopup(feature, popup);
+                    
+                    updateSidebar(feature.properties.SCH_NAME);
+                    sidebar.show();
                 }
             };
         }
