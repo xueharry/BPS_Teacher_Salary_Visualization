@@ -15,6 +15,17 @@ L.tileLayer(
 
 var salary_data;
 
+// Add sidebar
+var sidebar = L.control.sidebar('sidebar', {
+    position: 'left'
+});
+
+map.addControl(sidebar);
+
+setTimeout(function () {
+    sidebar.show();
+}, 500);
+
 // Get salary data
 $.getJSON('data/salaries.json', function(json) {
     salary_data = json;
