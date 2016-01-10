@@ -26,9 +26,24 @@ map.addControl(sidebar);
 function updateSidebar (schoolname) {
     var salaryDict = salary_data[schoolname]['salaries'];
 
-    // Convert salaries dictionary into a list of its values
+    // Convert salaries dictionary into a list of just values
     var salaryList = Object.keys(salaryDict).map(function(key){
         return salaryDict[key];
+    });
+
+    // Convert salaries dictionary into an array of teacher-name, salary objects
+    var salaryArray = [];
+
+    for (var key in salaryDict) {
+        salaryArray.push({
+            name : key,
+            salary: salaryDict[key]
+        })
+    }
+
+    // Sort salaryArray by last name
+    salaryArray.sort(function(a,b) {
+        return a.name.localeCompare(b.name);
     });
 
    // Fill in sidebar header
@@ -74,8 +89,9 @@ function updateSidebar (schoolname) {
     tableRows = '';
 
     // Generate table row for each dictionary entry
-    for (var key in salaryDict) {
-        tableRows += '<tr><td>' + key + '</td><td>$' + salaryDict[key] + '</td></tr>';
+    for (var i = 0; i < salaryArray.length; i++) {
+        tableRows += '<tr><td>' + salaryArray[i].name + '</td><td>$' + salaryArray[i].salary
+         + '</td></tr>';
     }
 
     tableHtml = '<table><thead><tr><th>Name</th><th>Total Earnings in 2014</th></tr></thead>' 
