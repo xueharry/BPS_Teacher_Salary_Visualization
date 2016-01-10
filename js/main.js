@@ -24,12 +24,30 @@ map.addControl(sidebar);
 
 // Dynamically update sidebar
 function updateSidebar (schoolname) {
-    var salaryList = salary_data[schoolname]['salaries'];
+    var salaryDict = salary_data[schoolname]['salaries'];
 
-   // Fill in sidebar
+    // Convert salaries dictionary into a list of just values
+    var salaryList = Object.keys(salaryDict).map(function(key){
+        return salaryDict[key];
+    });
+
+    // Convert salaries dictionary into an array of teacher-name, salary objects
+    var salaryArray = [];
+
+    for (var key in salaryDict) {
+        salaryArray.push({
+            name : key,
+            salary: salaryDict[key]
+        })
+    }
+
+    // Sort salaryArray by last name
+    salaryArray.sort(function(a,b) {
+        return a.name.localeCompare(b.name);
+    });
+
+   // Fill in sidebar header
     $('#sidebar_title').html('<h1>' + schoolname +'</h1>');
-
-    // Fill in summary
 
     // Generate plotly histogram
     var histogramData = [
@@ -66,6 +84,21 @@ function updateSidebar (schoolname) {
     };
 
     Plotly.newPlot('boxplot', boxplotData, boxLayout);
+
+    // Generate table of earnings by name
+    tableRows = '';
+
+    // Generate table row for each dictionary entry
+    for (var i = 0; i < salaryArray.length; i++) {
+        tableRows += '<tr><td>' + salaryArray[i].name + '</td><td>$' + salaryArray[i].salary
+         + '</td></tr>';
+    }
+
+    tableHtml = '<table class="table-condensed"><thead><tr><th>Name</th><th>Total Earnings in 2014</th></tr></thead>' 
+        + '<tbody>' + tableRows +'</tbody></table>';
+
+    // Add table to sidebar
+    $('#earningstablecontainer').html(tableHtml);
 
     // Open sidebar
     sidebar.show();
@@ -162,4 +195,3 @@ function getColor(d) {
             d > 60000 ? '#fdae6b':
                         '#feedde';
 }
-
