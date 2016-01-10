@@ -25,16 +25,14 @@ map.addControl(sidebar);
 // Dynamically update sidebar
 function updateSidebar (schoolname) {
     var salaryDict = salary_data[schoolname]['salaries'];
-    
+
     // Convert salaries dictionary into a list of its values
     var salaryList = Object.keys(salaryDict).map(function(key){
         return salaryDict[key];
     });
 
-   // Fill in sidebar
+   // Fill in sidebar header
     $('#sidebar_title').html('<h1>' + schoolname +'</h1>');
-
-    // Fill in summary
 
     // Generate plotly histogram
     var histogramData = [
@@ -71,6 +69,20 @@ function updateSidebar (schoolname) {
     };
 
     Plotly.newPlot('boxplot', boxplotData, boxLayout);
+
+    // Generate table of earnings by name
+    tableRows = '';
+
+    // Generate table row for each dictionary entry
+    for (var key in salaryDict) {
+        tableRows += '<tr><td>' + key + '</td><td>$' + salaryDict[key] + '</td></tr>';
+    }
+
+    tableHtml = '<table><thead><tr><th>Name</th><th>Total Earnings in 2014</th></tr></thead>' 
+        + '<tbody>' + tableRows +'</tbody></table>';
+
+    // Add table to sidebar
+    $('#earningstable').html(tableHtml);
 
     // Open sidebar
     sidebar.show();
