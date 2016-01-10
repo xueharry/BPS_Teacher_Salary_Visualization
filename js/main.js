@@ -94,11 +94,11 @@ function updateSidebar (schoolname) {
          + '</td></tr>';
     }
 
-    tableHtml = '<table><thead><tr><th>Name</th><th>Total Earnings in 2014</th></tr></thead>' 
+    tableHtml = '<table id="earningstable"><thead><tr><th>Name</th><th>Total Earnings in 2014</th></tr></thead>' 
         + '<tbody>' + tableRows +'</tbody></table>';
 
     // Add table to sidebar
-    $('#earningstable').html(tableHtml);
+    $('#earningstablecontainer').html(tableHtml);
 
     // Open sidebar
     sidebar.show();
@@ -195,4 +195,3 @@ function getColor(d) {
             d > 60000 ? '#fdae6b':
                         '#feedde';
 }
-
