@@ -28,28 +28,28 @@ def median(lst):
         return round((sortedLst[index] + sortedLst[index + 1])/2.0, 2)
 
 # Convert set to dictionary
-# schools is a dictionary with of school name, list of salaries pairs
+# schools is a dictionary of school name, nested dictionary of salaries keyed by teacher name pairs
 schools = dict.fromkeys(hs)
 
-# Load in salaries to dictionary
+# Populate dictionary
 with open('BPShighschool.csv', 'rb') as inp:
 	for row in csv.reader(inp):
 		if row[2] != 'DEPARTMENT NAME':
 			if schools[row[2]] is None:
-				schools[row[2]] = [float(row[10])]
+				schools[row[2]] = {row[0]:float(row[10])}
 			else:
-				schools[row[2]].append(float(row[10]))
+				schools[row[2]][row[0]] = float(row[10])
 
 salary_data = dict.fromkeys(hs)
 
-# Add salary for each school
+# Add salary dictionary for each school
 for school, _ in salary_data.items():
 	salary_data[school] = {'salaries': schools[school]}
 
 # Add mean and median for each school
 for school, _ in salary_data.items():
-	salary_data[school]['mean'] = mean(schools[school])
-	salary_data[school]['median'] = median(schools[school])
+	salary_data[school]['mean'] = mean(schools[school].values())
+	salary_data[school]['median'] = median(schools[school].values())
 
 f = open('salaries.json', 'w')
 f.write(json.dumps(salary_data))

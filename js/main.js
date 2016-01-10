@@ -24,7 +24,12 @@ map.addControl(sidebar);
 
 // Dynamically update sidebar
 function updateSidebar (schoolname) {
-    var salaryList = salary_data[schoolname]['salaries'];
+    var salaryDict = salary_data[schoolname]['salaries'];
+    
+    // Convert salaries dictionary into a list of its values
+    var salaryList = Object.keys(salaryDict).map(function(key){
+        return salaryDict[key];
+    });
 
    // Fill in sidebar
     $('#sidebar_title').html('<h1>' + schoolname +'</h1>');
