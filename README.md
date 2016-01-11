@@ -1,6 +1,6 @@
 # BPS_Teacher_Salary_Visualization
 
-A map-based visualization of average high school teacher salary across the Boston Public Schools in 2014 using publically available data.
+A map-based visualization of average high school teacher salary across the Boston Public Schools in 2014 using publicly available data.
 View at http://xueharry.github.io/BPS_Teacher_Salary_Visualization/.
 
 ![Imgur](http://i.imgur.com/Ik8n8sM.png)
@@ -9,7 +9,7 @@ View at http://xueharry.github.io/BPS_Teacher_Salary_Visualization/.
 Click on the circle marker for any particular school to open up a side panel with a more detailed breakdown, including a histogram, boxplot and a table of teacher salaries listed by name. Search for a particular high school by clicking on the search icon in the top right corner and enter in the name of the school of interest. Click on a school in the results list to open up its breakdown.
 
 # Data
-All data was gathered from publically available sources. Teacher salary data was retreived from https://data.cityofboston.gov/Finance/Employee-Earnings-Report-2014/4swk-wcg8 and school geodata was gathered from http://bostonopendata.boston.opendata.arcgis.com/datasets/1d9509a8b2fd485d9ad471ba2fdb1f90_0?uiTab=table.
+All data was gathered from publicly available sources. Teacher salary data was retreived from https://data.cityofboston.gov/Finance/Employee-Earnings-Report-2014/4swk-wcg8 and school geodata was gathered from http://bostonopendata.boston.opendata.arcgis.com/datasets/1d9509a8b2fd485d9ad471ba2fdb1f90_0?uiTab=table.
 
 You can read about my data preprocessing methodology (as well as download both the raw and cleaned datasets) [here] (https://github.com/xueharry/BPS_Teacher_Salary_Data).
 
